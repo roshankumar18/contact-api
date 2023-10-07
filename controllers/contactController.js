@@ -3,7 +3,7 @@ const Contact = require("../models/contactModels")
 const { default: mongoose } = require("mongoose")
 
 const getContacts = aysncHanlder(async (req,res)=>{
-    const contacts = await Contact.find()
+    const contacts = await Contact.find({user_id:req.user.id})
 
     res.status(200).json(contacts)
 })
@@ -19,14 +19,15 @@ const getContact = aysncHanlder (async (req,res)=>{
     res.status(200).json(contact)
 }
 )
-const createContact = aysncHanlder( async (req,res)=>{
+const createContact = ( async (req,res)=>{
     const {name,email,phone} = req.body
-
     if(!name || !email || !phone){
         res.status(400)
         throw new Error("all fields mandatory")
     }
-    const contact =await Contact.create({name,
+    const contact =await Contact.create({
+        user_id:req.user.id,
+        name,
         email,
         phone})
 

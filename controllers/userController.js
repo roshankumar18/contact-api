@@ -38,7 +38,7 @@ const loginUser =  (async(req,res)=>{
             username:user.username,
             email:user.email}},
             process.env.ACCESS_TOKEN_SECRET,
-        {"expiresIn":"1m"})
+        {"expiresIn":"60m"})
         res.status(200).json({accessToken})  
     }else{
         res.status(401)
