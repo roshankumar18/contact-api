@@ -23,7 +23,7 @@ const registerUser= (async(req,res)=>{
     
     })
 
-const loginUser =  (async(req,res)=>{
+const loginUser =  aysncHanlder(async(req,res)=>{
     const {email,password} = req.body
     if(!email || !password){
         res.status(400)
@@ -31,7 +31,12 @@ const loginUser =  (async(req,res)=>{
         console.log("wrong fields")
     }
     const user = await userModel.findOne({email})
-    
+    console.log(user)
+    if(!user){
+        console.log("in user")
+        res.status(401)
+        throw new Error("email not present")
+    }
     if(user && await bcrypt.compare(password,user.password)){
         accessToken = jwt.sign({user:{
             id:user.id,
